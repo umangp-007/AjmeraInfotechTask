@@ -3,24 +3,18 @@ import { useProfile } from "../../context/ProfileContext";
 import { Profile } from "../../types/Profile";
 import axios from "axios";
 import "./ProfileForm.scss";
+import { validateForm } from "../../utils/validation";
 
 const ProfileForm: React.FC = () => {
   const { profile, setProfile } = useProfile();
   const [formData, setFormData] = useState<Profile>(
-    profile || { name: "", email: "", age: "" }
+    profile || { name: "", email: "", age: undefined }
   );
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  const validate = () => {
-    const newErrors: { [key: string]: string } = {};
-    if (!formData.name || formData.name.length < 3) newErrors.name = "Name must be at least 3 characters.";
-    if (!formData.email || !/^\S+@\S+\.\S+$/.test(formData.email)) newErrors.email = "Invalid email format.";
-    return newErrors;
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const validationErrors = validate();
+    const validationErrors = validateForm(formData);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
@@ -31,6 +25,8 @@ const ProfileForm: React.FC = () => {
       setProfile(response.data);
       localStorage.setItem("profile", JSON.stringify(response.data));
       alert("Profile saved successfully!");
+      setFormData({ name: "", email: "", age: undefined });
+      setErrors({});
     } catch (error) {
       console.error("Error saving profile:", error);
       alert("Failed to save profile.");
@@ -66,8 +62,11 @@ const ProfileForm: React.FC = () => {
         <input
           type="number"
           id="age"
-          value={formData.age || ""}
-          onChange={(e) => setFormData({ ...formData, age: e.target.value })}
+          value={formData.age !== undefined ? formData.age : ""}
+          onChange={(e) => {
+            const value = e.target.value;
+            setFormData({ ...formData, age: value ? parseInt(value, 10) : undefined });
+          }}
           className="form-control"
         />
       </div>
@@ -79,3 +78,6 @@ const ProfileForm: React.FC = () => {
 };
 
 export default ProfileForm;
+
+
+

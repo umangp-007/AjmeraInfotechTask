@@ -2,7 +2,8 @@ import React from "react";
 import { useProfile } from "../../context/ProfileContext";
 
 const ProfileDisplay: React.FC = () => {
-  const { profile } = useProfile(); // Using the custom hook for type safety
+  const { profile } = useProfile(); 
+  console.log("🚀 ~ profile:", profile)
 
   if (!profile) {
     return <p>No profile found. Please create one.</p>;

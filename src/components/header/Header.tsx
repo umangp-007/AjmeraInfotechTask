@@ -1,24 +1,25 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import "./Header.scss";
+import { ROUTES } from "../../utils/constants";
 
 const Header: React.FC = () => {
   return (
     <header className="header">
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
-          <NavLink className="navbar-brand" to="/">
+          <h3>
             Profile Manager
-          </NavLink>
+          </h3>
           <div className="collapse navbar-collapse">
             <ul className="navbar-nav me-auto">
               <li className="nav-item">
-                <NavLink className="nav-link" to="/profile-form">
+                <NavLink className="nav-link" to={ROUTES.FORM}>
                   Create Profile
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/profiles">
+                <NavLink className="nav-link" to="/">
                   Profiles List
                 </NavLink>
               </li>
