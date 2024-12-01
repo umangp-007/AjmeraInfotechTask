@@ -12,6 +12,10 @@ For run Json-server :
 
 ### `npx json-server --watch db.json --port 5000`
 
+Set below command in .env file
+
+### `REACT_APP_API_URL=http://localhost:5000`
+
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
